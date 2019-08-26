@@ -1,3 +1,12 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Configs
+let s:nerdfont = get(g:, 'nerdfont', 0)
+
+let s:branch_icon = get(g:, 'lightline#helper#branch_icon', (s:nerdfont ? "\ue725" : 'ᚴ'))
+let s:percentChars = get(g:, 'lightline#helper#percent_chars', [ "\u25CF       ", "\u25CF\u25CF      ", "\u25CF\u25CF\u25CF     ", "\u25CF\u25CF\u25CF\u25CF    ", "\u25CF\u25CF\u25CF\u25CF\u25CF   ", "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF  ", "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF ", "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF" ])
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Lightline components
 
 function! lightline#helper#isHidden()
   let filetypes = ['nerdtree', 'startify', 'list']
@@ -25,7 +34,6 @@ function! lightline#helper#lineinfo()
   return lightline#helper#isHidden() ? '' : printf('%d:%-2d', line('.'), col('.'))
 endfunction
 
-let s:percentChars = [ "\u25CF       ", "\u25CF\u25CF      ", "\u25CF\u25CF\u25CF     ", "\u25CF\u25CF\u25CF\u25CF    ", "\u25CF\u25CF\u25CF\u25CF\u25CF   ", "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF  ", "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF ", "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF" ]
 
 function! lightline#helper#percent()
   if lightline#helper#isHidden()
@@ -53,7 +61,7 @@ function! lightline#helper#fileformat()
 endfunction
 
 function! lightline#helper#fileencoding()
-  return IsHidden() ? '': (&fenc !=# '' ? &fenc : &enc)
+  return lightline#helper#isHidden() ? '': (&fenc !=# '' ? &fenc : &enc)
 endfunction
 
 function! lightline#helper#filetype()
@@ -61,12 +69,12 @@ function! lightline#helper#filetype()
 endfunction
 
 function! lightline#helper#branch()
-  if IsHidden()
+  if lightline#helper#isHidden()
     return ''
   endif
   let b = fugitive#head()
   " return b == '' ? '' : 'ᚴ '.b
-  return b == '' ? '' : "\ue725 ".b
+  return b == '' ? '' : s:branch_icon . " " . b
 
 endfunction
 
