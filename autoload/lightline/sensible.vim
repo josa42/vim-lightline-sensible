@@ -117,6 +117,10 @@ function! s:setLightline(scope, name, value) abort
 endfunction
 
 function! lightline#sensible#isHidden()
+  if get(b:, 'lightline_hidden', v:false) == v:true
+    return v:true
+  endif
+
   let filetypes = ['nerdtree', 'startify', 'list', 'help', 'fugitive', 'fugitiveblame', 'qf', 'git']
   let filenames = ['[Plugins]', '__vista__', 'startify', 'NERDTree', 'Tagbar', 'Gundo']
   return index(filetypes, &filetype) != -1 || index(filenames, expand('%:t')) != -1
