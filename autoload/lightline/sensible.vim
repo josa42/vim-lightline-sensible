@@ -19,7 +19,7 @@ function! lightline#sensible#mode()
 endfunction
 
 function! lightline#sensible#readonly()
-  return lightline#sensible#isHidden() ? '': ( &readonly ? s:icon("\ue0a2", "RO") : '' )
+  return lightline#sensible#isHidden() ? '': ( &readonly ? s:icon("\ufbce", "RO") : '' )
 endfunction
 
 function! lightline#sensible#filename()
@@ -30,7 +30,7 @@ function! lightline#sensible#modified()
   if lightline#sensible#isHidden()
     return ''
   endif
-  return &modified ? "+" : ( &modifiable ? '' : "-" )
+  return &modified ? s:icon("\uf055", "+") : ( &modifiable ? '' : s:icon("\uf023", "-") )
 endfunction
 
 function! lightline#sensible#lineinfo()
