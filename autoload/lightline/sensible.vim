@@ -13,8 +13,8 @@ let s:percentChars = get(g:, 'lightline#sensible#percent_chars', [
   \   "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF ",
   \   "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF"
   \ ])
-let s:branch_icon = get(g:, 'lightline#sensible#modified_indicator', "+")
-let s:branch_icon = get(g:, 'lightline#sensible#not_modifiable_indicator', "-")
+let s:modified_indicator = get(g:, 'lightline#sensible#modified_indicator', "+")
+let s:not_modifiable_indicator = get(g:, 'lightline#sensible#not_modifiable_indicator', "-")
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lightline components
@@ -32,7 +32,12 @@ function! lightline#sensible#filename()
 endfunction
 
 function! lightline#sensible#modified()
-  return lightline#sensible#isHidden() ? '': ( &modified ? '+' : &modifiable ? '' : '-' )
+  if lightline#sensible#isHidden()
+    return ''
+  endif
+  return &modified
+    \   ? s:modified_indicator
+    \   : &modifiable ? '' : s:not_modifiable_indicator
 endfunction
 
 function! lightline#sensible#lineinfo()
