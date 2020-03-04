@@ -1,9 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Configs
-let s:nerdfont = get(g:, 'nerdfont', 0)
-
-let s:branch_icon = get(g:, 'lightline#sensible#branch_icon', (s:nerdfont ? "\ue725" : 'ᚴ'))
-let s:percentChars = get(g:, 'lightline#sensible#percent_chars', [
+let s:percentChars = [
   \   "\u25CF       ",
   \   "\u25CF\u25CF      ",
   \   "\u25CF\u25CF\u25CF     ",
@@ -12,9 +9,7 @@ let s:percentChars = get(g:, 'lightline#sensible#percent_chars', [
   \   "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF  ",
   \   "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF ",
   \   "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF"
-  \ ])
-let s:modified_indicator = get(g:, 'lightline#sensible#modified_indicator', "+")
-let s:not_modifiable_indicator = get(g:, 'lightline#sensible#not_modifiable_indicator', "-")
+  \ ]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lightline components
@@ -24,7 +19,7 @@ function! lightline#sensible#mode()
 endfunction
 
 function! lightline#sensible#readonly()
-  return lightline#sensible#isHidden() ? '': ( &readonly ? 'RO' : '' )
+  return lightline#sensible#isHidden() ? '': ( &readonly ? s:icon("\ue0a2", "RO") : '' )
 endfunction
 
 function! lightline#sensible#filename()
@@ -35,9 +30,7 @@ function! lightline#sensible#modified()
   if lightline#sensible#isHidden()
     return ''
   endif
-  return &modified
-    \   ? s:modified_indicator
-    \   : &modifiable ? '' : s:not_modifiable_indicator
+  return &modified ? "+" : ( &modifiable ? '' : "-" )
 endfunction
 
 function! lightline#sensible#lineinfo()
@@ -92,8 +85,7 @@ function! lightline#sensible#branch()
     let b = gitbranch#name()
   endif
 
-  return b == '' ? '' : s:branch_icon . " " . b
-
+  return b == '' ? '' : s:icon("\ue725", 'ᚴ') . " " . b
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -131,5 +123,7 @@ function! lightline#sensible#isHidden()
   return index(filetypes, &filetype) != -1 || index(filenames, expand('%:t')) != -1
 endfunction
 
-
+function! s:icon(default, nerdfont) abort
+  return get(g:, 'nerdfont', v:false) ? a:default : a:nerdfont
+endfunction
 

@@ -49,14 +49,6 @@ let g:lightline = {
 call lightline#sensible#register()
 ```
 
-## Configuration
-
-* `g:lightline#sensible#branch_icon`  
-  Icon that is shown next to the branch.
-* `lightline#sensible#percent_chars'`
-* `g:lightline#sensible#modified_indicator`
-* `g:lightline#sensible#not_modifiable_indicator`
-
 ## Helper
 
 - `lightline#sensible#isHidden()`
