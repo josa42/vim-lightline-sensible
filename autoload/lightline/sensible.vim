@@ -23,6 +23,11 @@ function! lightline#sensible#readonly()
 endfunction
 
 function! lightline#sensible#filename()
+  let fname = expand('%')
+  if match(fname, 'vimspector\.') == 0
+    return substitute(fname, '^vimspector\.', s:icon("\uf532 ", ''), '')
+  end
+
   return lightline#sensible#isHidden() ? '': expand('%')
 endfunction
 
@@ -119,7 +124,11 @@ function! lightline#sensible#isHidden()
   endif
 
   let filetypes = ['nerdtree', 'startify', 'list', 'help', 'fugitive', 'fugitiveblame', 'qf', 'git']
-  let filenames = ['[Plugins]', '__vista__', 'startify', 'NERDTree', 'Tagbar', 'Gundo']
+  let filenames = [
+    \ '[Plugins]', '__vista__', 'startify', 'NERDTree', 'Tagbar', 'Gundo',
+    \   'vimspector.Variables', 'vimspector.Watches', 'vimspector.StackTrace', 'vimspector.Console'
+    \ ]
+
   return index(filetypes, &filetype) != -1 || index(filenames, expand('%:t')) != -1
 endfunction
 
